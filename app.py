@@ -1,8 +1,13 @@
 from flask import Flask, request, jsonify
 from db_handler import execute_query
 from query_parser import parse_user_query
+import os
 
 app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Chat Assistant API is running!"
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -21,10 +26,7 @@ def chat():
     results = execute_query(sql_query, params)
 
     return jsonify({"response": results})
-import os
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Get port from Railway
+    port = int(os.environ.get("PORT", 5000))  # Use Railway-assigned port
     app.run(host='0.0.0.0', port=port, debug=True)
-
-
