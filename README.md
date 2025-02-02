@@ -1,6 +1,4 @@
-# Chat_Assistant
-
-# Chat_Assistant
+## Chat_Assistant
 
 🚀 Python-based Chat Assistant for SQLite Database  
 🔗 Live API: [Chat Assistant API](https://chatassistant-production-2fb6.up.railway.app)
