@@ -1,51 +1,55 @@
 # Chat_Assistant
 
-# Chat Assistant for SQLite Database
+Chat_Assistant
+Python-based Chat Assistant for SQLite Database
+🚀 Live API:
+🔗 https://chatassistant-production-2fb6.up.railway.app
 
-## Overview
-This project is a Python-based **Chat Assistant** that interacts with an SQLite database to answer user queries. The assistant accepts natural language input, converts it into SQL queries, retrieves data from the database, and presents clear, formatted responses.
+📌 Overview
+This project is a Flask-based Chat Assistant that interacts with an SQLite database to answer user queries.
+It accepts natural language input, converts it into SQL queries, fetches data, and responds in a clear, formatted manner.
 
-## Features
-- Accepts natural language queries.
-- Converts user input into SQL queries.
-- Retrieves relevant data from an SQLite database.
-- Handles invalid queries and errors gracefully.
-- Supports various types of queries, including:
-  - "Show me all employees in the [department] department."
-  - "Who is the manager of the [department] department?"
-  - "List all employees hired after [date]."
-  - "What is the total salary expense for the [department] department?"
+📌 Features
+✅ Accepts natural language queries.
+✅ Converts user input into SQL queries.
+✅ Retrieves relevant data from an SQLite database.
+✅ Handles invalid queries & errors gracefully.
+✅ Supports various queries, including:
 
-## Technologies Used
-- **Python** (Core programming language)
-- **SQLite** (Database management)
-- **Flask/FastAPI** (For API handling, optional for deployment)
-- **NLTK or spaCy** (For processing natural language queries, if needed)
-- **SQLAlchemy** (For database interaction)
+"Show me all employees in the [department] department."
+"Who is the manager of the [department] department?"
+"List all employees hired after [date]."
+"What is the total salary expense for the [department] department?"
+📌 Technologies Used
+Python (Core programming language)
+SQLite (Database management)
+Flask (Web API)
+NLTK (For natural language processing, if needed)
+SQLAlchemy (For database interaction)
+📌 Getting Started
+1️⃣ Clone the Repository
+bash
+Copy
+Edit
+git clone https://github.com/Subramanyabs15/Chat_Assistant.git
+cd Chat_Assistant
+2️⃣ Set Up a Virtual Environment
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+3️⃣ Install Dependencies
+bash
+Copy
+Edit
+pip install -r requirements.txt
+4️⃣ Prepare the SQLite Database
+Ensure employees.db exists with this schema:
 
-## Getting Started
-
-### 1. Clone the Repository
-```sh
- git clone https://github.com/your-username/chat-assistant-sqlite.git
- cd chat-assistant-sqlite
-```
-
-### 2. Set Up a Virtual Environment (Optional but Recommended)
-```sh
- python -m venv venv
- source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-### 3. Install Dependencies
-```sh
- pip install -r requirements.txt
-```
-
-### 4. Prepare the Database
-The project uses an SQLite database. Ensure you have an `employees.db` file with the following schema:
-
-```sql
+sql
+Copy
+Edit
 CREATE TABLE Employees (
     ID INTEGER PRIMARY KEY,
     Name TEXT NOT NULL,
@@ -59,41 +63,70 @@ CREATE TABLE Departments (
     Name TEXT NOT NULL,
     Manager TEXT NOT NULL
 );
-```
-You can populate it with sample data before running the assistant.
+If missing, create it manually or use create_db.py.
 
-### 5. Run the Assistant
-#### If using a Python script:
-```sh
- python chat_assistant.py
-```
+5️⃣ Run the Assistant
+bash
+Copy
+Edit
+python app.py
+The API will be accessible at:
+cpp
+Copy
+Edit
+http://127.0.0.1:5000
+If using Railway, use your live URL:
+arduino
+Copy
+Edit
+https://chatassistant-production-2fb6.up.railway.app
+📌 API Endpoints
+Method	Endpoint	Description
+GET	/	Returns "Chat Assistant API is running!"
+POST	/chat	Accepts a user query and returns results
+📌 Example API Requests
+📝 1️⃣ Using curl (Command Line)
+bash
+Copy
+Edit
+curl -X POST "https://chatassistant-production-2fb6.up.railway.app/chat" \
+-H "Content-Type: application/json" \
+-d '{"query": "Who is the manager of the Sales department?"}'
+📝 2️⃣ Using Postman
+Method: POST
+URL: https://chatassistant-production-2fb6.up.railway.app/chat
+Headers: { "Content-Type": "application/json" }
+Body (JSON):
+json
+Copy
+Edit
+{
+    "query": "Who is the manager of the Sales department?"
+}
+✅ Expected Response:
 
-#### If using Flask/FastAPI:
-```sh
- python app.py
-```
-Access the assistant via `http://127.0.0.1:5000` (for Flask) or the provided URL (for FastAPI).
+json
+Copy
+Edit
+{"response": [["Alice"]]}
+📌 How It Works
+User enters a query in natural language.
+Query gets converted into SQL using query_parser.py.
+SQLite database fetches relevant data.
+The response is formatted & returned in JSON.
+📌 Error Handling
+✔ Handles invalid department names (returns appropriate message).
+✔ Gracefully manages incorrect query formats.
+✔ Returns “No results found” for queries with no matching data.
 
-## How It Works
-1. The user enters a query in natural language.
-2. The assistant processes the query and maps it to an SQL command.
-3. The assistant queries the SQLite database.
-4. The retrieved data is formatted and returned as a response.
-5. The assistant provides meaningful messages for invalid inputs.
+📌 Known Limitations & Future Improvements
+🚧 Limited NLP Support: Complex sentence handling can be improved.
+🚧 Enhancements Needed for Multi-Condition Queries.
+🚧 User Authentication: Not yet implemented, could be a future feature.
 
-## Error Handling
-- Invalid department names return an appropriate error message.
-- Queries with incorrect formats prompt the user to rephrase.
-- If no results are found, the assistant informs the user.
-
-## Known Limitations & Future Improvements
-- **Limited NLP Support**: The assistant may not handle complex sentence structures well.
-- **Enhancements Needed for Complex Queries**: Support for multi-condition queries can be improved.
-- **Deployment**: Currently runs locally; future versions can be deployed to cloud platforms.
-- **User Authentication**: Future improvements may include authentication and authorization.
-
-## Contribution
+📌 Contribution
 Feel free to fork the repository and submit pull requests with improvements!
+Your contributions are welcome! 😊🎯
 
 ## License
 This project is open-source and available under the [MIT License](LICENSE).
