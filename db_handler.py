@@ -1,4 +1,7 @@
 import sqlite3
+import os
+DATABASE_PATH = os.path.join(os.path.dirname(__file__), "employees.db")
+
 
 # Define the database path
 DATABASE_PATH = "database/employees.db"
