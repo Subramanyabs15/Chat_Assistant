@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Assistant</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input[type="text"] { width: 60%; padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        .container { max-width: 600px; margin: auto; background: #f4f4f4; padding: 20px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Database Chat Assistant</h1>
+        <form method="post" action="/query">
+            <input type="text" name="query" placeholder="Enter your query..." size="50">
+            <button type="submit">Ask</button>
+        </form>
+        {% if response %}
+        <h3>Response:</h3>
+        <p>{{ response | safe }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

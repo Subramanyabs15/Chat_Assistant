@@ -1,32 +1,28 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, jsonify
 from db_handler import execute_query
 from query_parser import parse_user_query
-import os
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    return "Chat Assistant API is running!"
+    return render_template("index.html")
 
-@app.route('/chat', methods=['POST'])
+@app.route("/query", methods=["POST"])
 def chat():
-    """
-    Receives a user query, processes it, and returns the result.
-    """
-    user_input = request.json.get("query", "")
-
+    user_input = request.form.get("query", "")
+    
     # Convert user query into SQL
     query_tuple = parse_user_query(user_input)
 
     if not query_tuple:
-        return jsonify({"response": "Sorry, I didn't understand the query."})
+        response = "Sorry, I didn't understand the query."
+        return render_template("index.html", response=response)
 
     sql_query, params = query_tuple
     results = execute_query(sql_query, params)
 
-    return jsonify({"response": results})
+    return render_template("index.html", response=results)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Use Railway-assigned port
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(debug=True)
