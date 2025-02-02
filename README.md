@@ -123,8 +123,6 @@ curl -X POST "https://chatassistant-production-2fb6.up.railway.app/chat" \
 ## 🤝 Contribution
 Feel free to fork the repository and submit pull requests with improvements! Your contributions are welcome! 😊🎯
 
-## 📜 License
-This project is open-source and available under the **MIT License**.
 
 
 
