@@ -1,51 +1,32 @@
-import re
+from nlp_processor import process_user_query
 
 def parse_user_query(user_query):
     """
-    Parses a natural language query and converts it into an SQL query.
-    Returns an SQL query and its parameters.
+    Converts the processed NLP query into an SQL query.
     """
+    extracted_info = process_user_query(user_query)
 
-    # Show all employees in a department
-    if "all employees in" in user_query.lower():
-        dept = re.search(r"employees in the (\w+)", user_query, re.I)
-        if dept:
-            return "SELECT * FROM Employees WHERE Department = ?", (dept.group(1),)
+    print(f"🔹 Extracted NLP Info: {extracted_info}")  # Debugging Print
 
-    # Find the manager of a department
-    if "who is the manager of" in user_query.lower():
-        dept = re.search(r"manager of the (\w+)", user_query, re.I)
-        if dept:
-            return "SELECT Manager FROM Departments WHERE Name = ?", (dept.group(1),)
+    department = extracted_info["department"]
+    query_type = extracted_info["query_type"]
+    date = extracted_info["date"]
 
-    # List employees hired after a certain date
-    if "hired after" in user_query.lower():
-        date = re.search(r"hired after (\d{4}-\d{2}-\d{2})", user_query, re.I)
-        if date:
-            return "SELECT * FROM Employees WHERE Hire_Date > ?", (date.group(1),)
+    if query_type == "manager" and department:
+        sql_query = "SELECT Manager FROM Departments WHERE Name = ?"
+        params = [department]
+    elif query_type == "salary" and department:
+        sql_query = "SELECT SUM(Salary) FROM Employees WHERE Department = ?"
+        params = [department]
+    elif query_type == "list_employees" and department:  # ✅ New Case: List Employees
+        sql_query = "SELECT Name, Salary, Hire_Date FROM Employees WHERE Department = ?"
+        params = [department]
+    elif query_type == "hire_date" and date:
+        sql_query = "SELECT * FROM Employees WHERE Hire_Date > ?"
+        params = [date]
+    else:
+        print("❌ Could not generate SQL query!")  # Debugging Print
+        return None  # Return None if NLP extraction failed
 
-    # Get total salary expense for a department
-    if "total salary expense for" in user_query.lower():
-        dept = re.search(r"salary expense for the (\w+)", user_query, re.I)
-        if dept:
-            return "SELECT SUM(Salary) FROM Employees WHERE Department = ?", (dept.group(1),)
-
-    # Default case - unrecognized quer
-
-
-def test_parser():
-    test_queries = [
-        "Show me all employees in the Sales department.",
-        "Who is the manager of the Engineering department?",
-        "List all employees hired after 2021-01-01.",
-        "What is the total salary expense for the Marketing department?"
-    ]
-
-    for query in test_queries:
-        print(f"User Query: {query}")
-        result = parse_user_query(query)
-        print(f"SQL Query: {result}\n")
-
-if __name__ == "__main__":
-    test_parser()
-
+    print(f"✅ Generated SQL Query: {sql_query} with Params: {params}")  # Debugging Print
+    return sql_query, params
