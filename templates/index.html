@@ -7,6 +7,9 @@
         input[type="text"] { width: 60%; padding: 10px; font-size: 16px; }
         button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
         .container { max-width: 600px; margin: auto; background: #f4f4f4; padding: 20px; border-radius: 10px; }
+        .footer { margin-top: 20px; font-size: 14px; }
+        .footer a { color: #0366d6; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -20,6 +23,12 @@
         <h3>Response:</h3>
         <p>{{ response | safe }}</p>
         {% endif %}
+
+        <!-- GitHub Repository Link -->
+        <div class="footer">
+            <p>🔗 <a href="https://github.com/Subramanyabs15/Chat_Assistant" target="_blank">
+                View Source Code on GitHub</a></p>
+        </div>
     </div>
 </body>
 </html>
