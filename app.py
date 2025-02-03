@@ -1,12 +1,25 @@
 from flask import Flask, request, jsonify, render_template
 from db_handler import execute_query
 from query_parser import parse_user_query
+from db_handler import execute_query
+
+# Print all department names from the database
+print("Checking departments in the database...")
+departments = execute_query("SELECT * FROM Departments", [])
+print(departments)  # This will print all departments when the app starts
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
     return render_template("index.html")  # Load the web page
+
+@app.route('/check-db', methods=['GET'])
+def check_db():
+    sql_query = "SELECT * FROM Employees;"  # Change to 'Departments' if needed
+    results = execute_query(sql_query, [])
+    return jsonify(results)
 
 @app.route('/query', methods=['POST'])
 def query():
