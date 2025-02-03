@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, render_template
 from db_handler import execute_query
 from query_parser import parse_user_query
 from db_handler import execute_query
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 # Print all department names from the database
 print("Checking departments in the database...")
